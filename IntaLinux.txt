@@ -57,7 +57,40 @@ https://en.wikipedia.org/wiki/List_of_file_signatures
 ¿Cómo buscar y encontrar archivos en Linux?: 
 https://www.ionos.es/digitalguide/servidores/configuracion/comando-linux-find/
 
+AWK Cheat Sheet: 
+https://www.shortcutfoo.com/app/dojos/awk/cheatsheet
 
+AWK Cheat Sheet 2: 
+https://bl831.als.lbl.gov/~gmeigs/scripting_help/awk_cheat_sheet.pdf
+
+Cheat Sheet: Cutting Text with cut: 
+https://bencane.com/2012/10/22/cheat-sheet-cutting-text-with-cut/
+
+
+Tutorial del uso de SORT: 
+https://www.ibidemgroup.com/edu/tutorial-sort-linux-unix/
+
+Tutorial del uso de UNIQ: 
+https://victorhckinthefreeworld.com/2021/10/21/el-comando-uniq-de-gnu/
+
+Script ‘decompressor.sh‘: 
+https://hack4u.io/wp-content/uploads/2022/05/decompressor.sh
+
+
+Script ‘hostScan.sh‘: 
+https://hack4u.io/wp-content/uploads/2022/05/hostScan.sh
+
+Script ‘portScan.sh‘: 
+https://hack4u.io/wp-content/uploads/2022/05/portScan.sh
+
+Comparar las diferencias con el comando diff: 
+https://eltallerdelbit.com/comando-diff-ejemplos/
+
+Usando Netcat – Algunos comandos prácticos: 
+https://blog.desdelinux.net/usando-netcat-algunos-comandos-practicos/
+
+Cron & Crontab, explicados: 
+https://blog.desdelinux.net/cron-crontab-explicados/
 ----------------------------------
 
 Clase : Comando basicos linux (1-2)
@@ -491,3 +524,262 @@ Clase : Detección del tipo y formato de archivos
 ----------------------------------
 
 Clase : Búsquedas precisas de archivos [1-2]
+    find . -f -readble ! -executable 
+
+    find . -type f ! -executable -size 1033c | xargs cat | xargs 
+
+    find . -type f  -user bandit7 -group bandit6 -size 33c 2>/dev/null | xargs cat 
+
+----------------------------------
+
+Clase : Métodos de filtrado de datos [1-2]
+
+    cat data.txt | grep "millionth"
+
+    cat data.txt | grep "millionth" | awk 'NF{print $NF}'
+
+    cat data.txt | grep "millionth" | awk '{print $2}
+
+    for i in (seq 1 20); do echo -e "\n"; car example | cut -d ' ' -f $i;
+
+    cat data.txt | grep "millionth" | awk '{print $2} | rev 
+
+    ----
+
+    sort data.txt (ordena)
+    sort data.txt | uniq - u (ordenamos y listamos lo que esta de manera unica)
+    
+----------------------------------
+
+Clase : Interpretación de archivos binarios
+
+    El comando strings de Linux permite ver los caracteres legibles para humanos dentro de cualquier archivo.
+
+    El comando strings no tiene nada de complicado y su uso básico es muy sencillo. Proporcionamos el nombre del archivo que deseamos que las cadenas busquen en la línea de comando y chimpún. Parece una tontería, pero nos puede llegar a servir de cara al futuro en ciertas circunstancias.
+
+    strings data.txt 
+    strings data.txt | grep "===" | tail -n 1 | awk 'NF{print $NF}'
+
+----------------------------------
+
+Clase : Codificación y decodificación en base64
+
+    El algoritmo de codificación Base64 no es un algoritmo de cifrado, se decodifica fácilmente y, por lo tanto, no debe utilizarse como un método de cifrado seguro. No recomiendo que utilicéis esta técnica para proteger datos confidenciales, ya que se puede tensar en cuestión de segundos. En tal caso, es recomendable emplear métodos de cifrado seguros.
+
+    cat data.txt | base64 -d 
+
+----------------------------------
+
+Clase : Cifrado césar y uso de tr para la traducción de caracteres
+
+    Para los más curiosos, el cifrado César lleva el nombre de Julio César. Es uno de los tipos de cifrados más antiguos y se basa en el cifrado monoalfabético más simple. Se considera un método débil de criptografía, ya que es fácil decodificar el mensaje debido a sus técnicas de seguridad mínimas.
+
+Origen e historia
+
+    El gobernante romano Julio César (100 a. C. – 44 a. C.) utilizó un cifrado muy simple para la comunicación secreta. Sustituyó cada letra del alfabeto con una letra tres posiciones más adelante. Más tarde, cualquier cifrado que utilizara este concepto de «desplazamiento» para la creación de un alfabeto cifrado, se denominó cifrado César.
+
+    En el siglo XIX, la sección de anuncios personales en los periódicos a veces se usaba para intercambiar mensajes encriptados usando esquemas de cifrado simples. Kahn (1967) describe casos de amantes que participan en comunicaciones secretas cifradas utilizando el cifrado César en The Times.
+
+    Incluso ya en 1915, el cifrado César estaba en uso: el ejército ruso lo empleó como reemplazo de cifrados más complicados que habían resultado demasiado difíciles de dominar por sus tropas; Los criptoanalistas alemanes y austriacos tuvieron pocas dificultades para descifrar sus mensajes.
+
+    De todos los cifrados de tipo de sustitución, este cifrado de César es el más simple de resolver, ya que solo hay 25 combinaciones posibles.
+
+    cat data.txt | tr '[G-ZA-Fg-za-f]' '[T-ZA-St-za-s]'
+    cat data.txt | tr '[A-Za-z]' '[N-ZA-Mn-za-m]'
+    cat data.txt | tr '[A-Za-z]' '[N-ZA-Mn-za-m]' | awl 'NF{print $NF}'
+
+
+    rot13.com
+
+----------------------------------
+
+Clase : Creamos un descompresor recursivo automático de archivos en Bash
+
+    nvim data y pegamos el contenido 
+
+    car data | xxd -r | sponge data
+    mv data data.gz 
+    7z x data.gz 
+    7z l data2.bin 
+    7z x data2 
+    7z data4 
+    .... 
+    file data6 
+
+----------------------------------
+
+Clase : Manejo de pares de claves y conexiones SSH
+
+    Los pares de claves SSH son dos claves criptográficamente seguras que pueden usarse para autenticar a un cliente a un servidor SSH. Cada par de claves está compuesto por una clave pública y una clave privada.
+
+    El cliente mantiene la clave privada y debe mantenerla en absoluto secreto. Poner en riesgo la clave privada puede permitir a un atacante no autorizado iniciar sesión en los servidores que están configurados con la clave pública asociada sin autenticación adicional. Como medida de precaución adicional, es recomendable cifrar la clave en el disco con una frase de contraseña.
+
+    La clave pública asociada puede compartirse libremente sin ninguna consecuencia negativa. La clave pública puede usarse para cifrar mensajes que sólo la clave privada puede descifrar. Esta propiedad se emplea como forma de autenticación mediante el uso del par de claves.
+
+    cd .ssh 
+        apt install ssh 
+        sudo pacman -s openssh
+    sudo systemctl start sshd
+    ssh nicofirpo@localhost 
+    ssh-keygen (crea clave publica y privada)
+    cat id rsa.pub
+    cp id rsa.pub authorized_keys 
+    ssh nicofirpo@localhost 
+
+    o 
+
+    ssh-copy-id -i id rsa nicofirpo@localhost 
+    ssh -i id rsa nicofirpo@localhost 
+
+
+    --------------- -- -- -- -- -
+
+    cat sshkey.private
+
+    ssh -i sshkey@bandit14 
+
+----------------------------------
+
+Clase : Uso de netcat para realizar conexiones
+
+    Netcat es una herramienta de línea de comandos que sirve para escribir y leer datos en la red. Para la transmisión de datos, Netcat usa los protocolos de red TCP/IP y UDP. La herramienta proviene originalmente del mundo de Unix; desde entonces, se ha expandido a todas las plataformas.
+
+    Gracias a su universalidad, a Netcat se la llama “la navaja suiza del TCP/IP”. Puede utilizarse, por ejemplo, para diagnosticar errores y problemas que afecten a la funcionalidad y la seguridad de una red. Netcat también puede escanear puertos, hacer streaming de datos o simplemente transferirlos. Además, permite configurar servidores de chat y de web e iniciar consultas por correo. Este software minimalista, desarrollado a mediados de los 90, puede operar en modo servidor y cliente.
+
+    tenemos que entrar por puerto 30000
+    en total hay 65535 puertos 
+
+    nc localhost 30000 (nos conectamos a la maquina por el puerto 30000)
+
+    echo "19CB
+    0016
+    Capabilities19C8
+    B2EC
+    A7CE
+    B39A
+    E7FA
+    EB90" |sort -u | while read linde; do echo "[+] Puerto $line -> $(echo "obade=10; ibase=16; $line" | bc ) - OPEN" ; done 
+
+    lsof -i:22 
+    pid identificador de proceso 
+
+----------------------------------
+
+Clase : Uso de conexiones encriptadas
+
+    Ncat puede encriptar el tráfico usando SSL. En el modo de conexión, basta con añadir la opción ‘–ssl‘.
+
+    ncat --ssl 127.0.0.1 30001
+
+----------------------------------
+
+Clase : Creando nuestros propios escáneres en Bash
+
+    Script ‘hostScan.sh‘: https://hack4u.io/wp-content/uploads/2022/05/hostScan.sh
+    Script ‘portScan.sh‘: https://hack4u.io/wp-content/uploads/2022/05/portScan.sh
+
+    touch portScan.sh 
+    chmod +x 
+
+    echo '' > /dev/tcp/127-0-0.1/22 (desde una bash)
+    echo '' > /dev/tcp/127-0-0.1/22 && echo "el puerto esta abierto" || echo "El puerto esta cerrado"  
+
+    cd /tmp/
+    mktemp -d 
+    cd 
+    touch portScan.sh 
+    nano portScan.sh 
+    
+        #!/bin/bash
+    
+        function ctrl_c(){
+            echo -e "\n\n Ssaliendo... \n"
+            exit 1
+        }
+
+        #ctrl_c 
+        trap ctrl_c INT 
+
+        for port in $(seq 31000 32000); do
+            (echo '' >/dev/tcp/127.0.0.1/Sport 2>/dev/null) && echo "[+] $port - OPEN"
+        done
+    
+    chmod +x
+
+    nmap --open -T5 -v -n -p31000-32000 127.0.0.1
+
+    ncat --ssl 127.0.0.1 31790
+
+    nano id_rsa 
+    chmod 600 id_rsa 
+
+----------------------------------
+
+Clase : Detección de diferencias entre archivos
+
+    diff password.old pasword.new (nos dice la diferencia entre ambas)
+
+----------------------------------
+
+Clase : Ejecución de comandos por SSH
+
+    A través del archivo de configuración ‘.bashrc‘ o ‘.zshrc‘, es posible definir una serie de acciones a llevar a cabo a la hora de obtener una consola interactiva, en este caso tras ingresar por SSH.
+
+    Es por ello que tras ingresar, somos expulsados de forma inmediata, dado que así ha sido definido en el archivo de configuración ‘.bashrc‘ para el caso que estamos tratando. Si colamos un comando al final de nuestra línea al aplicar una autenticación por SSH, lograremos que ese comando sea introducido a nivel de sistema antes de que se interprete el archivo de configuración pertinente.
+
+    -p 'contraseña' ssh bandit18@bandit.labs.overthewire.org -p 2220 bash 
+    cat readme 
+
+----------------------------------
+
+Clase : Abusando de privilegio SUID para migrar de usuario
+
+    SUID es un permiso de archivo especial para archivos ejecutables que permite a otros usuarios ejecutar el archivo con los permisos efectivos del propietario del archivo. SGID, por el contrario, es un permiso de archivo especial que también se aplica a los archivos ejecutables y permite a otros usuarios heredar el GID efectivo del propietario del grupo de archivos.
+
+    SUID significa “establecer ID de usuario” (Set owner User ID) y SGID significa “establecer ID de grupo” (Set Group ID up on execution).
+
+    ./bandit20-do whoami 
+    ./bandit20-do id
+    ./bandit20-do bash -p
+    ./bandit20-do sh 
+    cd /bandit20/etc/pass 
+
+----------------------------------
+
+Clase : Jugando con conexiones
+
+    nc -nlvp 4646 
+    contraseña bandit20 
+    
+    
+    
+    ./suconnect 4646
+    --- devuelve contraseña bandit 21 
+
+
+----------------------------------
+
+Clase : Abusando de tareas Cron [1-3]
+
+    Cron es un administrador de tareas de Linux que permite ejecutar comandos en un momento determinado, por ejemplo, cada minuto, día, semana o mes. Si queremos trabajar con cron, podemos hacerlo a través del comando crontab.
+
+    El formato de configuración de cron es el siguiente: Minuto Hora Dia-del-Mes Mes Dia-de-la-Semana Comando-a-Ejecutar
+
+    El intervalo de tiempo se especifica mediante 5 campos que representan, de izquierda a derecha:
+
+        Minutos: de 0 a 59.
+        Horas: de 0 a 23.
+        Día del mes: de 1 a 31.
+        Mes: de 1 a 12.
+        Día de la semana: de 1 a 6 lunes a sábado (1=lunes, 2=martes, etc.) y 0 o 7 el domingo.
+
+    Si quisiéramos especificar todos los valores posibles de un parámetro (minutos, horas, etc.) podemos hacer uso del asterisco (*). Esto implica que si en lugar de un número utilizamos un asterisco, el comando indicado se ejecutará cada minuto, hora, día de mes, mes o día de la semana, como en el siguiente ejemplo:
+
+    * * * * * /home/user/script.sh (se va a ejecutar cada minuto)
+
+
+    cd /etc/con.d$ ls 
+    cat /usr/bin/cronjob_bandit22.sh 
+    cat /tmp/...
+    
+
